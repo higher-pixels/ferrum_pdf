@@ -2,7 +2,7 @@ PATH
   remote: .
   specs:
     ferrum_pdf (0.3.0)
-      ferrum (~> 0.15)
+      ferrum (~> 0.16)
       rails (>= 6.0.0)
 
 GEM
