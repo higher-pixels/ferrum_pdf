@@ -20,8 +20,8 @@ module FerrumPdf
       @browser ||= Ferrum::Browser.new(options)
     end
 
-    def render_pdf(html: nil, url: nil, host: nil, protocol: nil, authorize: nil, wait_for_idle_options: nil, execute: nil, pdf_options: {})
-      render(host: host, protocol: protocol, html: html, url: url, authorize: authorize, wait_for_idle_options: wait_for_idle_options, execute: execute) do |page|
+    def render_pdf(html: nil, url: nil, host: nil, protocol: nil, authorize: nil, wait_for_idle_options: nil, pdf_options: {})
+      render(host: host, protocol: protocol, html: html, url: url, authorize: authorize, wait_for_idle_options: wait_for_idle_options) do |page|
         page.pdf(**pdf_options.with_defaults(encoding: :binary))
       end
     end
@@ -32,7 +32,7 @@ module FerrumPdf
       end
     end
 
-    def render(host:, protocol:, html: nil, url: nil, authorize: nil, wait_for_idle_options: nil, execute: nil)
+    def render(host:, protocol:, html: nil, url: nil, authorize: nil, wait_for_idle_options: nil)
       browser.create_page do |page|
         page.network.authorize(**authorize) { |req| req.continue } if authorize
         if html
@@ -40,7 +40,6 @@ module FerrumPdf
         else
           page.go_to(url)
         end
-        page.execute(execute) if execute
         page.network.wait_for_idle(**wait_for_idle_options)
         yield page
       ensure
